@@ -64,3 +64,18 @@ export function fetchVerify<T>(token: string) {
     data: { token },
   })
 }
+
+export function fetchAzureToken<T>() {
+  return post<T>({
+    url: '/get-azure-token',
+  })
+}
+
+export function txtToImg<T>(options: { data: Record<string, any>; signal?: GenericAbortSignal }) {
+  const { data, signal } = options
+  return post<T>({
+    url: '/txt-2-image',
+    signal,
+    data,
+  })
+}

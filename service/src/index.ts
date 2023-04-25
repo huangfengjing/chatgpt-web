@@ -1,10 +1,12 @@
 import express from 'express'
+import { getAzureSubscriptionKey } from './middleware/get-speech-token'
 import type { RequestProps } from './types'
 import type { ChatMessage } from './chatgpt'
 import { chatConfig, chatReplyProcess, currentModel } from './chatgpt'
 import { auth } from './middleware/auth'
 import { limiter } from './middleware/limiter'
 import { isNotEmptyString } from './utils/is'
+import { txt2Image } from './middleware/sd-api'
 
 const app = express()
 const router = express.Router()
@@ -17,6 +19,10 @@ app.all('*', (_, res, next) => {
   res.header('Access-Control-Allow-Headers', 'authorization, Content-Type')
   res.header('Access-Control-Allow-Methods', '*')
   next()
+})
+
+router.get('/get-test', async (req, res) => {
+  res.send({ status: 'Success', message: 'get-test', data: null })
 })
 
 router.post('/chat-process', [auth, limiter], async (req, res) => {
@@ -81,6 +87,10 @@ router.post('/verify', async (req, res) => {
     res.send({ status: 'Fail', message: error.message, data: null })
   }
 })
+
+router.post('/get-azure-token', auth, getAzureSubscriptionKey)
+
+router.post('/txt-2-image', auth, txt2Image)
 
 app.use('', router)
 app.use('/api', router)
