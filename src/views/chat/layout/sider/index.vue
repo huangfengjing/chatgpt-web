@@ -1,17 +1,22 @@
 <script setup lang='ts'>
 import type { CSSProperties } from 'vue'
-import { computed, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import { NButton, NLayoutSider, NSpace } from 'naive-ui'
 import List from './List.vue'
-import { HoverButton, PromptStore, SvgIcon } from '@/components/common'
+import { PromptStore, SvgIcon } from '@/components/common'
 import { useAppStore, useChatStore } from '@/store'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
+import PricingTable from '@/views/chat/layout/sider/PricingTable.vue'
+
+const Setting = defineAsyncComponent(() => import('@/components/common/Setting/index.vue'))
 
 const appStore = useAppStore()
 const chatStore = useChatStore()
 
 const { isMobile } = useBasicLayout()
-const show = ref(false)
+const promptStoreShow = ref(false)
+const pricingTableShow = ref(false)
+const settingShow = ref(false)
 
 const collapsed = computed(() => appStore.siderCollapsed)
 
@@ -80,25 +85,28 @@ watch(
         </div>
         <div class="p-4">
           <NSpace vertical>
-            <NButton block @click="show = true">
+            <NButton block @click="promptStoreShow = true">
               {{ $t('store.siderButton') }}
             </NButton>
-            <NButton block round secondary type="warning" @click="show = true">
+            <NButton block round secondary type="warning" @click="pricingTableShow = true">
               订阅
               <template #icon>
                 <SvgIcon icon="tabler:diamond" />
               </template>
             </NButton>
             <NSpace justify="space-between">
-              <NButton block @click="show = true">
-                个人中心
+              <NButton block @click="settingShow = true">
+                设置
+                <template #icon>
+                  <SvgIcon icon="ri:settings-4-line" />
+                </template>
               </NButton>
-
-              <HoverButton tooltip="退出">
-                <span class="text-xl text-[#4f555e] dark:text-white">
+              <NButton block @click="settingShow = true">
+                退出
+                <template #icon>
                   <SvgIcon icon="ant-design:logout-outlined" />
-                </span>
-              </HoverButton>
+                </template>
+              </NButton>
             </NSpace>
           </NSpace>
         </div>
@@ -108,5 +116,7 @@ watch(
   <template v-if="isMobile">
     <div v-show="!collapsed" class="fixed inset-0 z-40 bg-black/40" @click="handleUpdateCollapsed" />
   </template>
-  <PromptStore v-model:visible="show" />
+  <PromptStore v-if="promptStoreShow" v-model:visible="promptStoreShow" />
+  <PricingTable v-if="pricingTableShow" v-model:visible="pricingTableShow" />
+  <Setting v-if="settingShow" v-model:visible="settingShow" />
 </template>
