@@ -25,20 +25,27 @@ function http<T = any>(
   const successHandler = (res: AxiosResponse<Response<T>>) => {
     const authStore = useAuthStore()
 
-    if (res.data.status === 'Success' || typeof res.data === 'string')
+    // 自动设置登陆令牌
+    if (res.headers.authorization || res.headers.Authorization)
+      authStore.setToken(res.headers.authorization || res.headers.Authorization)
+
+    if (res.status === 200 || typeof res.data === 'string')
       return res.data
 
-    if (res.data.status === 'Unauthorized') {
+    if (res.status === 403 || res.status === 401)
       authStore.removeToken()
-      window.location.reload()
-    }
 
     return Promise.reject(res.data)
   }
 
   const failHandler = (error: Response<Error>) => {
+    const authStore = useAuthStore()
+    if (error.response.status === 401) {
+      authStore.removeToken()
+      return
+    }
     afterRequest?.()
-    throw new Error(error?.message || 'Error')
+    throw new Error(error?.response.data.msg || error?.message || 'Error')
   }
 
   beforeRequest?.()

@@ -8,7 +8,7 @@ export function fetchChatAPI<T = any>(
   signal?: GenericAbortSignal,
 ) {
   return post<T>({
-    url: '/chat',
+    url: '/web/chat/chat',
     data: { prompt, options },
     signal,
   })
@@ -16,7 +16,7 @@ export function fetchChatAPI<T = any>(
 
 export function fetchChatConfig<T = any>() {
   return post<T>({
-    url: '/config',
+    url: '/web/chat/config',
   })
 }
 
@@ -45,7 +45,7 @@ export function fetchChatAPIProcess<T = any>(
   }
 
   return post<T>({
-    url: '/chat-process',
+    url: '/web/chat/chat-process',
     data,
     signal: params.signal,
     onDownloadProgress: params.onDownloadProgress,
@@ -54,28 +54,54 @@ export function fetchChatAPIProcess<T = any>(
 
 export function fetchSession<T>() {
   return post<T>({
-    url: '/session',
+    url: '/web/chat/session',
   })
 }
 
 export function fetchVerify<T>(token: string) {
   return post<T>({
-    url: '/verify',
+    url: '/web/chat/verify',
     data: { token },
   })
 }
 
 export function fetchAzureToken<T>() {
   return post<T>({
-    url: '/get-azure-token',
+    url: '/web/chat/get-azure-token',
   })
 }
 
 export function txtToImg<T>(options: { data: Record<string, any>; signal?: GenericAbortSignal }) {
   const { data, signal } = options
   return post<T>({
-    url: '/txt-2-image',
+    url: '/web/chat/txt-2-image',
     signal,
     data,
+  })
+}
+
+export function smsLogin<T>(formVal: object) {
+  return post<T>({
+    url: '/web/chat/sms-login',
+    data: formVal,
+  })
+}
+
+export function sendSms<T>(event: string, mobile: string) {
+  return post<T>({
+    url: '/app/send-sms',
+    data: {
+      event,
+      mobile,
+    },
+  })
+}
+
+export function buyMemberCard<T>(cardType: string) {
+  return post<T>({
+    url: '/member/card/buy',
+    data: {
+      cardType,
+    },
   })
 }

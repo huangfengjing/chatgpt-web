@@ -1,11 +1,11 @@
 <script setup lang='ts'>
 import type { CSSProperties } from 'vue'
 import { computed, ref, watch } from 'vue'
-import { NButton, NLayoutSider } from 'naive-ui'
+import { NButton, NLayoutSider, NSpace } from 'naive-ui'
 import List from './List.vue'
+import { HoverButton, PromptStore, SvgIcon } from '@/components/common'
 import { useAppStore, useChatStore } from '@/store'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
-import { PromptStore } from '@/components/common'
 
 const appStore = useAppStore()
 const chatStore = useChatStore()
@@ -79,9 +79,28 @@ watch(
           <List />
         </div>
         <div class="p-4">
-          <NButton block @click="show = true">
-            {{ $t('store.siderButton') }}
-          </NButton>
+          <NSpace vertical>
+            <NButton block @click="show = true">
+              {{ $t('store.siderButton') }}
+            </NButton>
+            <NButton block round secondary type="warning" @click="show = true">
+              订阅
+              <template #icon>
+                <SvgIcon icon="tabler:diamond" />
+              </template>
+            </NButton>
+            <NSpace justify="space-between">
+              <NButton block @click="show = true">
+                个人中心
+              </NButton>
+
+              <HoverButton tooltip="退出">
+                <span class="text-xl text-[#4f555e] dark:text-white">
+                  <SvgIcon icon="ant-design:logout-outlined" />
+                </span>
+              </HoverButton>
+            </NSpace>
+          </NSpace>
         </div>
       </main>
     </div>
