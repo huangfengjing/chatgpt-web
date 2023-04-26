@@ -6,12 +6,16 @@ import List from './List.vue'
 import { HoverButton, PromptStore, SvgIcon } from '@/components/common'
 import { useAppStore, useChatStore } from '@/store'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
+import PricingTable from '@/views/chat/layout/sider/PricingTable.vue'
+import Setting from '@/components/common/Setting/index.vue'
 
 const appStore = useAppStore()
 const chatStore = useChatStore()
 
 const { isMobile } = useBasicLayout()
-const show = ref(false)
+const promptShow = ref(false)
+const subscriptShow = ref(false)
+const settingShow = ref(false)
 
 const collapsed = computed(() => appStore.siderCollapsed)
 
@@ -80,18 +84,21 @@ watch(
         </div>
         <div class="p-4">
           <NSpace vertical>
-            <NButton block @click="show = true">
+            <NButton block @click="promptShow = true">
               {{ $t('store.siderButton') }}
             </NButton>
-            <NButton block round secondary type="warning" @click="show = true">
+            <NButton block round secondary type="warning" @click="subscriptShow = true">
               订阅
               <template #icon>
                 <SvgIcon icon="tabler:diamond" />
               </template>
             </NButton>
             <NSpace justify="space-between">
-              <NButton block @click="show = true">
+              <NButton block @click="settingShow = true">
                 个人中心
+                <template #icon>
+                  <SvgIcon icon="ri:settings-4-line" />
+                </template>
               </NButton>
 
               <HoverButton tooltip="退出">
@@ -108,5 +115,7 @@ watch(
   <template v-if="isMobile">
     <div v-show="!collapsed" class="fixed inset-0 z-40 bg-black/40" @click="handleUpdateCollapsed" />
   </template>
-  <PromptStore v-model:visible="show" />
+  <PromptStore v-model:visible="promptShow" />
+  <PricingTable v-model:visible="subscriptShow" />
+  <Setting v-if="settingShow" v-model:visible="settingShow" />
 </template>

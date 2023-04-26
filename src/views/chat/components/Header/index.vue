@@ -3,7 +3,6 @@ import { computed, nextTick, ref } from 'vue'
 import { useDialog } from 'naive-ui'
 import { HoverButton, SvgIcon } from '@/components/common'
 import { useAppStore, useChatStore } from '@/store'
-import Setting from '@/components/common/Setting/index.vue'
 import { t } from '@/locales'
 
 interface Props {
@@ -104,6 +103,5 @@ function handleClear() {
         </HoverButton>
       </div>
     </div>
-    <Setting v-if="showSetting" v-model:visible="showSetting" />
   </header>
 </template>
