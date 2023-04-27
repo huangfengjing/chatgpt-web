@@ -80,17 +80,17 @@ function handleClear() {
         {{ currentChatHistory?.title ?? '' }}
       </h1>
       <div class="flex items-center space-x-2">
-        <HoverButton @click="toggleUsingContext">
+        <HoverButton tooltip="连续对话开关" @click="toggleUsingContext">
           <span class="text-xl" :class="{ 'text-[#4b9e5f]': usingContext, 'text-[#a8071a]': !usingContext }">
             <SvgIcon icon="ri:chat-history-line" />
           </span>
         </HoverButton>
-        <HoverButton @click="handleExport">
+        <HoverButton tooltip="将对话导出为图片" @click="handleExport">
           <span class="text-xl text-[#4f555e] dark:text-white">
             <SvgIcon icon="ri:download-2-line" />
           </span>
         </HoverButton>
-        <HoverButton @click="handleClear">
+        <HoverButton tooltip="清空当前对话" @click="handleClear">
           <span class="text-xl text-[#4f555e] dark:text-white">
             <SvgIcon icon="ri:delete-bin-line" />
           </span>

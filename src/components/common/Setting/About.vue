@@ -1,8 +1,7 @@
 <script setup lang='ts'>
 import { computed, onMounted, ref } from 'vue'
-import { NSpin } from 'naive-ui'
+import { NList, NListItem, NSpace, NTag, NThing } from 'naive-ui'
 import { fetchChatConfig } from '@/api'
-import pkg from '@/../package.json'
 import { useAuthStore } from '@/store'
 
 interface ConfigState {
@@ -39,37 +38,39 @@ onMounted(() => {
 </script>
 
 <template>
-  <NSpin :show="loading">
-    <div class="p-4 space-y-4">
-      <h2 class="text-xl font-bold">
-        Version - {{ pkg.version }}
-      </h2>
-      <div class="p-2 space-y-2 rounded-md bg-neutral-100 dark:bg-neutral-700">
-        <p>
-          此项目开源于
-          <a
-            class="text-blue-600 dark:text-blue-500"
-            href="https://github.com/zaiMoe/chatgpt-web"
-            target="_blank"
-          >
-            GitHub
-          </a>
-          ，免费且基于 MIT 协议，没有任何形式的付费行为！
-        </p>
-        <p>
-          如果你觉得此项目对你有帮助，请在 GitHub 帮我点个 Star 或者给予一点赞助，谢谢！
-        </p>
-      </div>
-      <p>{{ $t("setting.api") }}：{{ config?.apiModel ?? '-' }}</p>
-      <p v-if="isChatGPTAPI">
-        {{ $t("setting.monthlyUsage") }}：{{ config?.usage ?? '-' }}
-      </p>
-      <p v-if="!isChatGPTAPI">
-        {{ $t("setting.reverseProxy") }}：{{ config?.reverseProxy ?? '-' }}
-      </p>
-      <p>{{ $t("setting.timeout") }}：{{ config?.timeoutMs ?? '-' }}</p>
-      <p>{{ $t("setting.socks") }}：{{ config?.socksProxy ?? '-' }}</p>
-      <p>{{ $t("setting.httpsProxy") }}：{{ config?.httpsProxy ?? '-' }}</p>
-    </div>
-  </NSpin>
+  <NList hoverable clickable>
+    <NListItem>
+      <NThing title="关于我们" content-style="margin-top: 10px;">
+        <template #description>
+          <NSpace size="small" style="margin-top: 4px">
+            <NTag :bordered="false" type="info" size="small">
+              介绍
+            </NTag>
+            <NTag :bordered="false" type="info" size="small">
+              联系方式
+            </NTag>
+          </NSpace>
+        </template>
+        一家始终致力于让 AI 成为业务增长驱动力的机构。 精准的洞察、创新的灵感，我们可以真正做到用 AI 推动业绩增长。<br>
+        电话：13333333333<br>
+        Email: admin@autochat.vip<br>
+      </NThing>
+    </NListItem>
+    <NListItem>
+      <NThing title="隐私声明" content-style="margin-top: 10px;">
+        <template #description>
+          <NSpace size="small" style="margin-top: 4px">
+            <NTag :bordered="false" type="info" size="small">
+              隐私
+            </NTag>
+            <NTag :bordered="false" type="info" size="small">
+              Privacy
+            </NTag>
+          </NSpace>
+        </template>
+        浏览我们的网站，即表示您接受本隐私声明中所述的我们的做法。<br>
+        如适用的数据隐私法律有相关要求，浏览我们的网站即构成您同意我们按照本隐私声明规定处理您的个人信息。<br>
+      </NThing>
+    </NListItem>
+  </NList>
 </template>

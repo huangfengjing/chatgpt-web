@@ -32,7 +32,7 @@ export default {
 </script>
 
 <template>
-  <HoverButton>
+  <HoverButton tooltip="自动播放答案开关">
     <span class="text-xl text-[#4f555e] dark:text-white" :class="ttsStore.autoSpeak ? 'text-pink-700' : 'dark:text-white'">
       <SvgIcon :icon="voiceIcon" @click="handleUpdate" />
     </span>

@@ -174,12 +174,14 @@ const importPromptTemplate = (from = 'online', showTip = true) => {
       let safe = true
       for (const j of promptList.value) {
         if (j.key === i[key]) {
-          showTip && message.warning(t('store.importRepeatTitle', { msg: i[key] }))
+          // 重复内容不再提示
+          // showTip && message.warning(t('store.importRepeatTitle', { msg: i[key] }))
           safe = false
           break
         }
         if (j.value === i[value]) {
-          showTip && message.warning(t('store.importRepeatContent', { msg: i[key] }))
+          // 重复内容不再提示
+          // showTip && message.warning(t('store.importRepeatContent', { msg: i[key] }))
           safe = false
           break
         }

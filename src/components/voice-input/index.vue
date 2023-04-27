@@ -177,7 +177,7 @@ export default {
 </script>
 
 <template>
-  <HoverButton>
+  <HoverButton tooltip="语音输入开关">
     <span class="text-xl text-[#4f555e] dark:text-white" :class="enableVoice ? 'text-pink-700' : 'dark:text-white'">
       <SvgIcon :icon="voiceIcon" @click="changeEnableVoice" />
     </span>

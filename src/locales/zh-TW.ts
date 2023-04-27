@@ -54,7 +54,7 @@ export default {
     setting: '設定',
     general: '總覽',
     advanced: '進階',
-    config: '設定',
+    about: '關於',
     avatarLink: '頭貼連結',
     name: '名稱',
     description: '描述',
