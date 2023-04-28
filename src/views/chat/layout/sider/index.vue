@@ -3,18 +3,19 @@ import type { CSSProperties } from 'vue'
 import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import { NButton, NLayoutSider, NSpace } from 'naive-ui'
 import List from './List.vue'
-import { PromptStore, SvgIcon } from '@/components/common'
+import { PromptStore, Scene, SvgIcon } from '@/components/common'
 import { useAppStore, useChatStore } from '@/store'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
-import PricingTable from '@/views/chat/layout/sider/PricingTable.vue'
 
 const Setting = defineAsyncComponent(() => import('@/components/common/Setting/index.vue'))
+const PricingTable = defineAsyncComponent(() => import('@/views/chat/layout/sider/PricingTable.vue'))
 
 const appStore = useAppStore()
 const chatStore = useChatStore()
 
 const { isMobile } = useBasicLayout()
 const promptStoreShow = ref(false)
+const sceneShow = ref(false)
 const pricingTableShow = ref(false)
 const settingShow = ref(false)
 
@@ -85,7 +86,7 @@ watch(
         </div>
         <div class="p-4">
           <NSpace vertical>
-            <NButton block @click="promptStoreShow = true">
+            <NButton block @click="sceneShow = true">
               {{ $t('store.siderButton') }}
             </NButton>
             <NButton block round secondary type="warning" @click="pricingTableShow = true">
@@ -117,6 +118,7 @@ watch(
     <div v-show="!collapsed" class="fixed inset-0 z-40 bg-black/40" @click="handleUpdateCollapsed" />
   </template>
   <PromptStore v-if="promptStoreShow" v-model:visible="promptStoreShow" />
+  <Scene v-if="sceneShow" v-model:visible="sceneShow" />
   <PricingTable v-if="pricingTableShow" v-model:visible="pricingTableShow" />
   <Setting v-if="settingShow" v-model:visible="settingShow" />
 </template>
