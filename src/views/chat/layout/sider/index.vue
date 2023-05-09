@@ -1,10 +1,10 @@
 <script setup lang='ts'>
 import type { CSSProperties } from 'vue'
 import { computed, defineAsyncComponent, ref, watch } from 'vue'
-import { NButton, NLayoutSider, NSpace } from 'naive-ui'
+import { NButton, NLayoutSider, NPopconfirm, NSpace } from 'naive-ui'
 import List from './List.vue'
 import { PromptStore, Scene, SvgIcon } from '@/components/common'
-import { useAppStore, useChatStore } from '@/store'
+import { useAppStore, useAuthStore, useChatStore } from '@/store'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 
 const Setting = defineAsyncComponent(() => import('@/components/common/Setting/index.vue'))
@@ -12,6 +12,7 @@ const PricingTable = defineAsyncComponent(() => import('@/views/chat/layout/side
 
 const appStore = useAppStore()
 const chatStore = useChatStore()
+const authStore = useAuthStore()
 
 const { isMobile } = useBasicLayout()
 const promptStoreShow = ref(false)
@@ -50,6 +51,11 @@ const mobileSafeArea = computed(() => {
   return {}
 })
 
+const handleLogout = function () {
+  authStore.removeToken()
+  window.location.reload()
+}
+
 watch(
   isMobile,
   (val) => {
@@ -86,7 +92,7 @@ watch(
         </div>
         <div class="p-4">
           <NSpace vertical>
-            <NButton block @click="sceneShow = true">
+            <NButton block @click="promptStoreShow = true">
               {{ $t('store.siderButton') }}
             </NButton>
             <NButton block round secondary type="warning" @click="pricingTableShow = true">
@@ -102,12 +108,17 @@ watch(
                   <SvgIcon icon="ri:settings-4-line" />
                 </template>
               </NButton>
-              <NButton block @click="settingShow = true">
-                退出
-                <template #icon>
-                  <SvgIcon icon="ant-design:logout-outlined" />
+              <NPopconfirm @positive-click="handleLogout">
+                <template #trigger>
+                  <NButton block>
+                    退出
+                    <template #icon>
+                      <SvgIcon icon="ant-design:logout-outlined" />
+                    </template>
+                  </NButton>
                 </template>
-              </NButton>
+                确定要退出吗？
+              </NPopconfirm>
             </NSpace>
           </NSpace>
         </div>
