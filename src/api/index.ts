@@ -58,10 +58,10 @@ export function fetchSession<T>() {
   })
 }
 
-export function fetchVerify<T>(token: string) {
+export function postLogin<T>(data: any) {
   return post<T>({
-    url: '/web/chat/verify',
-    data: { token },
+    url: '/web/chat/sms-login',
+    data,
   })
 }
 
